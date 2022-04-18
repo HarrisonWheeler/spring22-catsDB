@@ -27,6 +27,7 @@ class CatsService {
 
   async getCatById(catId) {
     const foundCat = FakeDB.cats.find(c => c.id === catId)
+    // NOTE we should always check to see if we found that thing - if we don't, throw the proper error
     if (!foundCat) {
       throw new BadRequest('Unable to find that kitty')
     }

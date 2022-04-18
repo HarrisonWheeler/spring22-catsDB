@@ -6,8 +6,10 @@ import BaseController from '../utils/BaseController'
 // NOTE Base controller comes from express which builds http requests for us, and allows us to use middleware
 export class CatsController extends BaseController {
   constructor() {
+    // NOTE super string here is the 'address' the knight will use to access this part of the api
     super('api/cats')
     this.router
+      // NOTE further filtering the knight into a more specific section if the api
       .get('', this.getAllCats)
       .get('/:id', this.getCatById)
       .post('', this.createCat)
@@ -19,6 +21,7 @@ export class CatsController extends BaseController {
   // res is our response back to the client - more than likely the data they requested.
   async getAllCats(req, res, next) {
     try {
+      // More for tomorrow/later this week, but we can directly access any query that is sent to us by the client
       const cats = await catsService.getAllCats(req.query)
       // NOTE make sure to send the data OUT of the api!
       res.send(cats)
@@ -29,6 +32,8 @@ export class CatsController extends BaseController {
 
   async getCatById(req, res, next) {
     try {
+      // NOTE remember that params.id reflects whatever we named the param in the router section of our constructor -
+      // ie - if you called it /:id, it will be req.params.id - if it's /:catId, it will be req.params.catId
       const catId = req.params.id
       const foundCat = await catsService.getCatById(catId)
       res.send(foundCat)
